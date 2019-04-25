@@ -49,3 +49,7 @@ func (c *Chain) ValidateTx(tx *types.Tx) (bool, error) {
 
 	return c.txPool.ProcessTransaction(tx, err != nil, bh.Height, gasStatus.BTMValue)
 }
+
+func (c *Chain) GetTxIdxByHash() (int, error) {
+	return 1, nil
+}
