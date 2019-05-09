@@ -8,17 +8,17 @@ import (
 	"github.com/bytom/protocol/bc"
 )
 
-// TxOutput is the top level struct of tx output.
-type TxOutput struct {
+// ClaimTxOutput is the top level struct of tx output.
+type ClaimTxOutput struct {
 	AssetVersion uint64
 	OutputCommitment
 	// Unconsumed suffixes of the commitment and witness extensible strings.
 	CommitmentSuffix []byte
 }
 
-// NewTxOutput create a new output struct
-func NewTxOutput(assetID bc.AssetID, amount uint64, controlProgram []byte) *TxOutput {
-	return &TxOutput{
+// NewClaimTxOutput create a new output struct
+func NewClaimTxOutput(assetID bc.AssetID, amount uint64, controlProgram []byte) *ClaimTxOutput {
+	return &ClaimTxOutput{
 		AssetVersion: 1,
 		OutputCommitment: OutputCommitment{
 			AssetAmount: bc.AssetAmount{
@@ -31,7 +31,7 @@ func NewTxOutput(assetID bc.AssetID, amount uint64, controlProgram []byte) *TxOu
 	}
 }
 
-func (to *TxOutput) readFrom(r *blockchain.Reader) (err error) {
+func (to *ClaimTxOutput) readFrom(r *blockchain.Reader) (err error) {
 	if to.AssetVersion, err = blockchain.ReadVarint63(r); err != nil {
 		return errors.Wrap(err, "reading asset version")
 	}
@@ -45,7 +45,7 @@ func (to *TxOutput) readFrom(r *blockchain.Reader) (err error) {
 	return errors.Wrap(err, "reading output witness")
 }
 
-func (to *TxOutput) writeTo(w io.Writer) error {
+func (to *ClaimTxOutput) writeTo(w io.Writer) error {
 	if _, err := blockchain.WriteVarint63(w, to.AssetVersion); err != nil {
 		return errors.Wrap(err, "writing asset version")
 	}
@@ -60,6 +60,6 @@ func (to *TxOutput) writeTo(w io.Writer) error {
 	return nil
 }
 
-func (to *TxOutput) writeCommitment(w io.Writer) error {
+func (to *ClaimTxOutput) writeCommitment(w io.Writer) error {
 	return to.OutputCommitment.writeExtensibleString(w, to.CommitmentSuffix, to.AssetVersion)
 }

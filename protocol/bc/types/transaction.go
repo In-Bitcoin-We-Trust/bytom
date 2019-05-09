@@ -62,7 +62,7 @@ type TxData struct {
 	SerializedSize uint64
 	TimeRange      uint64
 	Inputs         []*TxInput
-	Outputs        []*TxOutput
+	Outputs        []WrappedTxOutput
 }
 
 // MarshalText fulfills the json.Marshaler interface.
